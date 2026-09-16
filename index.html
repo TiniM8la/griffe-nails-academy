@@ -22,7 +22,6 @@
     <nav class="main-nav">
       <a href="#per-chi">Il tuo percorso</a>
       <a href="#metodo">Metodo Griffe</a>
-      <a href="#come-funziona">Come iniziare</a>
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-small" href="#test">Fai il test</a>
@@ -189,64 +188,9 @@
   </div>
 </section>
 
-<section class="section section-dark" id="come-funziona">
-  <div class="container">
-    <div class="section-heading light">
-      <p class="eyebrow">COME FUNZIONA</p>
-      <h2>Dal tuo punto di partenza al percorso giusto per te.</h2>
-      <p>Pochi passaggi per permettere a Cristina di capire davvero cosa ti serve prima di proporti una formazione.</p>
-    </div>
-
-    <div class="steps">
-      <article class="step">
-        <div class="step-index">01</div>
-        <h3>Fai il test</h3>
-        <p>Raccontaci il tuo livello, le difficoltà che incontri e ciò che vuoi migliorare.</p>
-      </article>
-      <article class="step">
-        <div class="step-index">02</div>
-        <h3>Invia il risultato a Cristina</h3>
-        <p>Dopo il test puoi proseguire su WhatsApp e, se utile, inviare alcune foto dei tuoi lavori.</p>
-      </article>
-      <article class="step">
-        <div class="step-index">03</div>
-        <h3>Valutazione e personalizzazione</h3>
-        <p>Cristina valuta il tuo punto di partenza e definisce contenuti, durata e impostazione del percorso.</p>
-      </article>
-      <article class="step">
-        <div class="step-index">04</div>
-        <h3>Conferma del percorso</h3>
-        <p>Ricevi tutte le informazioni necessarie e confermi la tua partecipazione.</p>
-      </article>
-      <article class="step">
-        <div class="step-index">05</div>
-        <h3>Formazione</h3>
-        <p>Il percorso si svolge a Brescia, individualmente o in piccoli gruppi, con pratica e correzione diretta.</p>
-      </article>
-      <article class="step">
-        <div class="step-index">06</div>
-        <h3>Supporto post-corso</h3>
-        <p>Il confronto non termina con la giornata formativa: è previsto supporto anche dopo il corso.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
 <section class="section test-section" id="test">
   <div class="container">
-    <div class="test-shell">
-      <div class="test-intro">
-        <p class="eyebrow">TEST DI ORIENTAMENTO</p>
-        <h2>Qual è il percorso più adatto a te?</h2>
-        <p>Qui verrà inserito il test di orientamento GNA.</p>
-      </div>
-
-      <!-- SPAZIO RISERVATO AL TEST -->
-      <div class="test-placeholder">
-        <span>TEST GNA</span>
-        <p>Spazio riservato al questionario interattivo.</p>
-      </div>
-    </div>
+    <div class="quiz-shell" id="quiz" aria-live="polite"></div>
   </div>
 </section>
 
@@ -323,6 +267,128 @@
     <p>© Griffe Nails Academy</p>
   </div>
 </footer>
+
+<script>
+  (() => {
+    const quiz = document.querySelector("#quiz");
+    const answers = {};
+    let currentStep = 0;
+
+    const questions = [
+      { eyebrow:"PUNTO DI PARTENZA", question:"Da quanto tempo lavori nel mondo unghie?", type:"radio", key:"esperienza", options:["Non ho ancora iniziato","Meno di 1 anno","Da 1 a 3 anni","Da 3 a 5 anni","Oltre 5 anni"] },
+      { eyebrow:"IL TUO CONTESTO", question:"Qual è la tua posizione attuale?", type:"radio", key:"contesto", options:["Sto iniziando da zero","Dipendente in un centro estetico/salone","Titolare o gestisco un centro","Libera professionista"] },
+      { eyebrow:"OFFERTA ATTUALE", question:"Quali servizi offri già?", hint:"Puoi selezionare più risposte.", type:"checkbox", key:"servizi", exclusive:"Nessuno ancora", options:["Manicure base","Semipermanente","Refill","Ricostruzione","Refill correttivo","Nessuno ancora"] },
+      { eyebrow:"STRUMENTI DI LAVORO", question:"Che materiali utilizzi in salone?", hint:"Puoi selezionare più risposte.", type:"checkbox", key:"materiali", exclusive:"Non uso ancora materiali professionali", options:["Semipermanente","Gel","Acrygel","Non uso ancora materiali professionali"] },
+      { eyebrow:"AUTOVALUTAZIONE", question:"Quali sono i tuoi punti di forza?", hint:"Puoi selezionare più risposte.", type:"checkbox", key:"puntiForza", options:["Precisione e pulizia del lavoro","Struttura e architettura","Forma e limatura","Colore sotto cuticola","Tecnica slim","Altro"] },
+      { eyebrow:"AREE DI MIGLIORAMENTO", question:"Quali difficoltà hai riscontrato di recente?", hint:"Mi aiuterà a consigliarti i moduli giusti", type:"checkbox", key:"difficolta", options:["Problematiche di sollevamento","Manicure poco precisa e giro cuticola sporco","Strutture spesse e non uniformi","Difficoltà nell'armonia del full set"] },
+      { eyebrow:"I TUOI OBIETTIVI", question:"Raccontaci dove vuoi arrivare", hint:"Le risposte non sono obbligatorie.", optional:true, type:"textarea", key:"obiettivi", fields:[["obiettivo","Qual è il tuo obiettivo finale con la formazione GRIFFE?","Es. vorrei lavorare come dipendente in un salone, aprire il mio centro, migliorare per la clientela che ho già..."],["approfondire","Quali argomenti in particolare vorresti approfondire?","Es. manicure perfetta, zero sollevamenti, struttura e architettura, correzioni di unghie problematiche..."]] },
+      { eyebrow:"PREFERENZE", question:"Che tipo di corso preferisci?", type:"radio", key:"preferenza", options:["Individuale personalizzato — su misura, solo per te","Piccolo gruppo — massimo 3 persone"] },
+      { eyebrow:"ULTIMO PASSO", question:"Ci siamo quasi", type:"contact", key:"contatti" }
+    ];
+
+    function renderPath() {
+      return `<div class="quiz-path" aria-label="Percorso del test">
+        <span>✦ FAI IL TEST</span><i></i><span>✦ INVIAMI I TUOI LAVORI</span><i></i><span>✦ COSTRUIAMO IL TUO PERCORSO</span>
+      </div>`;
+    }
+
+    function renderWelcome() {
+      quiz.innerHTML = `<div class="quiz-screen quiz-welcome">
+        <div class="quiz-intro"><p class="eyebrow">TEST DI ORIENTAMENTO</p><h2>Troviamo il percorso più adatto a te.</h2>${renderPath()}</div>
+        <button class="btn quiz-start" type="button">Inizia il test&nbsp; →</button>
+      </div>`;
+      quiz.querySelector(".quiz-start").addEventListener("click", () => { currentStep = 0; renderQuestion(); });
+    }
+
+    function selectedValues(question) {
+      return Array.isArray(answers[question.key]) ? answers[question.key] : [];
+    }
+
+    function renderQuestion() {
+      const question = questions[currentStep];
+      const value = answers[question.key];
+      let body = "";
+      if (question.type === "radio" || question.type === "checkbox") {
+        const selected = question.type === "radio" ? [value] : selectedValues(question);
+        body = `<fieldset class="quiz-options"><legend class="sr-only">${question.question}</legend>${question.options.map((option, index) => `
+          <label class="quiz-option${selected.includes(option) ? " is-selected" : ""}">
+            <input type="${question.type}" name="${question.key}" value="${option}"${question.type === "radio" ? ' data-single="true"' : ""}${selected.includes(option) ? " checked" : ""}>
+            <span>${option}</span><b aria-hidden="true"></b>
+          </label>`).join("")}</fieldset>`;
+      } else if (question.type === "textarea") {
+        body = `<div class="quiz-fields">${question.fields.map(([key,label,placeholder]) => `<label class="quiz-field"><span>${label}</span><textarea name="${key}" placeholder="${placeholder}">${answers[key] || ""}</textarea></label>`).join("")}</div>`;
+      } else {
+        const contact = answers.contatti || {};
+        body = `<div class="quiz-fields"><label class="quiz-field"><span>Nome e cognome *</span><input name="nome" value="${contact.nome || ""}" required></label><label class="quiz-field"><span>Email</span><input type="email" name="email" value="${contact.email || ""}"></label><label class="quiz-field"><span>Telefono</span><input type="tel" name="telefono" value="${contact.telefono || ""}"></label></div>`;
+      }
+      const contactHint = question.type === "contact" ? `<p class="quiz-hint">Lasciami i tuoi contatti per completare il test.</p>` : "";
+      quiz.innerHTML = `<div class="quiz-progress"><span style="width:${((currentStep + 1) / questions.length) * 100}%"></span></div>
+        <div class="quiz-screen"><div class="quiz-intro"><p class="eyebrow">${question.eyebrow}</p><h2>${question.question}</h2>${question.hint ? `<p class="quiz-hint">${question.hint}</p>` : ""}${contactHint}</div>${body}<div class="quiz-actions"><button class="quiz-back" type="button"${currentStep === 0 ? " disabled" : ""}>←</button><button class="btn quiz-next" type="button">${currentStep === questions.length - 1 ? "Completa il test" : "Continua"}&nbsp; →</button></div></div>`;
+      bindQuestion(question);
+    }
+
+    function bindQuestion(question) {
+      quiz.querySelectorAll("input, textarea").forEach(input => {
+        input.addEventListener("change", () => {
+          if (question.type === "checkbox") {
+            const values = [...quiz.querySelectorAll(`input[name="${question.key}"]:checked`)].map(item => item.value);
+            if (question.exclusive && values.includes(question.exclusive) && values.length > 1) answers[question.key] = [question.exclusive];
+            else answers[question.key] = values;
+          } else if (question.type === "radio") {
+            quiz.querySelectorAll(`input[name="${question.key}"]`).forEach(option => {
+              option.checked = option === input;
+              option.closest(".quiz-option")?.classList.toggle("is-selected", option === input);
+            });
+            answers[question.key] = input.value;
+          }
+          else if (question.type === "contact") saveContact();
+          input.closest(".quiz-option")?.classList.toggle("is-selected", input.checked);
+          if (question.exclusive) renderQuestion();
+        });
+        input.addEventListener("input", () => { if (question.type === "textarea") answers[input.name] = input.value; if (question.type === "contact") saveContact(); });
+      });
+      quiz.querySelector(".quiz-back").addEventListener("click", () => { saveCurrent(question); currentStep -= 1; renderQuestion(); });
+      quiz.querySelector(".quiz-next").addEventListener("click", () => { saveCurrent(question); if (!validateCurrentStep(question)) return; currentStep += 1; if (currentStep < questions.length) renderQuestion(); else showFinalScreen(); });
+    }
+
+    function saveContact() {
+      answers.contatti = { nome: quiz.querySelector('[name="nome"]')?.value.trim() || "", email: quiz.querySelector('[name="email"]')?.value.trim() || "", telefono: quiz.querySelector('[name="telefono"]')?.value.trim() || "" };
+    }
+
+    function saveCurrent(question) {
+      if (question.type === "textarea") quiz.querySelectorAll("textarea").forEach(input => { answers[input.name] = input.value.trim(); });
+      if (question.type === "contact") saveContact();
+    }
+
+    function validateCurrentStep(question) {
+      if (question.optional) return true;
+      const value = question.type === "checkbox" ? answers[question.key]?.length : question.type === "contact" ? answers.contatti?.nome : question.type === "textarea" ? answers.obiettivo?.trim() || answers.approfondire?.trim() : answers[question.key];
+      if (!value) { quiz.querySelector(".quiz-error")?.remove(); const error = document.createElement("p"); error.className = "quiz-error"; error.textContent = question.type === "contact" ? "Inserisci almeno nome e cognome per continuare." : "Seleziona una risposta per continuare."; quiz.querySelector(".quiz-actions").before(error); return false; }
+      return true;
+    }
+
+    function summaryLines() {
+      const labels = [["esperienza","Da quanto tempo lavori nel mondo unghie?"],["contesto","Qual è la tua posizione attuale?"],["servizi","Quali servizi offri già?"],["materiali","Che materiali utilizzi in salone?"],["puntiForza","Quali sono i tuoi punti di forza?"],["difficolta","Quali difficoltà hai riscontrato di recente?"],["obiettivo","Qual è il tuo obiettivo finale con la formazione GRIFFE?"],["approfondire","Quali argomenti in particolare vorresti approfondire?"],["preferenza","Che tipo di corso preferisci?"]];
+      return labels.map(([key,q]) => ({ q, a: Array.isArray(answers[key]) ? answers[key].join(", ") : answers[key] || "" }));
+    }
+
+    function buildWhatsAppMessage() {
+      const contact = answers.contatti || {};
+      let message = `RISULTATI TEST — GRIFFE Nails Academy\n\nNome: ${contact.nome}\n`;
+      if (contact.email) message += `Email: ${contact.email}\n`;
+      if (contact.telefono) message += `Telefono: ${contact.telefono}\n`;
+      message += "\n";
+      summaryLines().forEach(item => { message += `${item.q}\n${item.a}\n\n`; });
+      return `${message}Ora ti mando anche le mie foto!`;
+    }
+
+    function showFinalScreen() {
+      quiz.innerHTML = `<div class="quiz-progress"><span style="width:100%"></span></div><div class="quiz-screen quiz-final"><span class="quiz-check" aria-hidden="true">✓</span><p class="eyebrow">TEST COMPLETATO</p><h2>Test completato!</h2><h3>Due cose da fare:</h3><div class="final-steps"><p><b>01</b><strong>Invia il messaggio su WhatsApp</strong><span>È già pronto con le tue risposte: invialo così com'è.</span></p><p><b>02</b><strong>Allega 5 foto dei tuoi lavori</strong><span>Mandamele nella stessa chat, subito dopo.</span></p></div><a class="btn" href="https://wa.me/393339306905?text=${encodeURIComponent(buildWhatsAppMessage())}" target="_blank" rel="noopener">Apri WhatsApp&nbsp; →</a><p class="quiz-note"><span>Analizzerò i tuoi risultati e i tuoi lavori per proporti il percorso formativo più adatto a te.</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20S3 15 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 15 12 20 12 20Z"/></svg></p></div>`;
+    }
+
+    renderWelcome();
+  })();
+</script>
 
 </body>
 </html>
