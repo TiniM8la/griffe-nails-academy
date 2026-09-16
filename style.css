@@ -105,15 +105,11 @@ strong{color:var(--charcoal)}
 .method-gallery-track::-webkit-scrollbar{display:none}
 .method-gallery-item{position:relative;flex:0 0 auto;overflow:hidden;scroll-snap-align:start;border-radius:12px}
 .method-gallery-item::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;background:rgba(244,167,181,.06)}
-.method-gallery-item img{display:block;width:100%;height:auto;object-fit:cover;border-radius:inherit;filter:saturate(.72) contrast(.95) brightness(1.02);transition:filter .4s ease}
-.gallery-item--wide{width:clamp(440px,42vw,570px)}
-.gallery-item--wide img{aspect-ratio:1.55}
-.gallery-item--portrait{width:clamp(250px,25vw,330px)}
-.gallery-item--portrait img{aspect-ratio:.78}
-.gallery-item--medium{width:clamp(340px,33vw,440px)}
-.gallery-item--medium img{aspect-ratio:1.2}
-.gallery-item--detail{width:clamp(230px,23vw,295px)}
-.gallery-item--detail img{aspect-ratio:.9}
+.method-gallery-item img{display:block;width:100%;height:auto;border-radius:inherit;filter:saturate(.72) contrast(.95) brightness(1.02);transition:filter .4s ease}
+.gallery-item--landscape{width:clamp(420px,40vw,560px)}
+.gallery-item--portrait{width:clamp(270px,24vw,340px)}
+.gallery-item--medium{width:clamp(320px,29vw,410px)}
+.gallery-item--detail{width:clamp(240px,22vw,295px)}
 .gallery-item--offset{margin-top:28px}
 @media (hover:hover) and (pointer:fine){
   .method-gallery-item:hover img{filter:saturate(.95) contrast(1) brightness(1)}
@@ -171,9 +167,9 @@ details p{max-width:700px;padding:0 42px 24px 0;font-size:.91rem}
   .faq-intro{position:static}
   .steps{grid-template-columns:1fr 1fr}
   .included-grid{grid-template-columns:1fr 1fr;gap:32px 24px}
-  .gallery-item--wide{width:400px}
+  .gallery-item--landscape{width:400px}
   .gallery-item--medium{width:330px}
-  .gallery-item--portrait{width:245px}
+  .gallery-item--portrait{width:270px}
   .gallery-item--detail{width:220px}
   .gallery-item--offset{margin-top:18px}
 }
@@ -206,7 +202,6 @@ details p{max-width:700px;padding:0 42px 24px 0;font-size:.91rem}
   .method-gallery{margin-top:52px}
   .method-gallery-track{gap:12px}
   .method-gallery-item{width:78vw}
-  .method-gallery-item img,.gallery-item--wide img,.gallery-item--portrait img,.gallery-item--medium img,.gallery-item--detail img{aspect-ratio:1.12}
   .gallery-item--offset{margin-top:16px}
   .contact-row{grid-template-columns:1fr;gap:6px}
   .footer-inner{align-items:flex-start;flex-direction:column}
