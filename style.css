@@ -109,6 +109,7 @@ strong{color:var(--charcoal)}
 .gallery-item--landscape{width:clamp(420px,40vw,560px)}
 .gallery-item--portrait{width:clamp(270px,24vw,340px)}
 .gallery-item--medium{width:clamp(320px,29vw,410px)}
+.gallery-item--03{width:clamp(260px,23vw,330px)}
 .gallery-item--detail{width:clamp(240px,22vw,295px)}
 .gallery-item--offset{margin-top:28px}
 @media (hover:hover) and (pointer:fine){
@@ -176,6 +177,8 @@ summary::-webkit-details-marker{display:none}
 summary::after{content:"+";position:absolute;top:20px;right:0;font-size:1.5rem;color:var(--rose-dark)}
 details[open] summary::after{content:"–"}
 details p{max-width:700px;padding:0 42px 24px 0;font-size:.91rem}
+.faq-link{color:var(--rose-dark);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.faq-link:hover{color:var(--charcoal)}
 
 .contact-section{background:var(--charcoal);color:var(--ivory)}
 .contact-content{padding-top:clamp(72px,9vw,120px);padding-bottom:clamp(64px,8vw,96px)}
@@ -242,6 +245,7 @@ details p{max-width:700px;padding:0 42px 24px 0;font-size:.91rem}
   .method-gallery{margin-top:52px}
   .method-gallery-track{gap:12px}
   .method-gallery-item{width:78vw}
+  .gallery-item--03{width:66vw}
   .gallery-item--offset{margin-top:16px}
   .contact-links{grid-template-columns:1fr;gap:28px}
   .footer-inner{align-items:flex-start;flex-direction:column}
