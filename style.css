@@ -120,7 +120,7 @@ strong{color:var(--charcoal)}
 }
 
 .test-section{background:linear-gradient(180deg,rgba(234,214,215,.45),rgba(248,243,238,.85))}
-.quiz-shell{max-width:900px;margin:0 auto}
+.quiz-shell{max-width:900px;margin:0 auto;padding:clamp(30px,5vw,62px);border:1px solid rgba(197,143,152,.28);border-radius:var(--radius);background:var(--ivory);box-shadow:var(--shadow)}
 .quiz-screen{animation:quizFade .25s ease}
 @keyframes quizFade{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
 .quiz-intro{margin-bottom:34px}
