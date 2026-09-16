@@ -44,6 +44,10 @@ strong{color:var(--charcoal)}
 .btn-outline:hover{color:var(--white)}
 .text-link{font-size:.9rem;font-weight:600}
 .text-link:hover{color:var(--rose-dark)}
+.hero-whatsapp-link{display:inline-flex;align-items:baseline;gap:5px}
+.hero-whatsapp-link>span{color:var(--gray);font-size:.78rem;font-weight:400}
+.hero-whatsapp-link>strong{color:inherit;font-size:.9rem;font-weight:600}
+.hero-whatsapp-link:hover>strong{color:#94D687}
 
 .site-header{position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(232,223,220,.85);background:rgba(255,253,249,.94);backdrop-filter:blur(12px)}
 .header-inner{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:28px}
