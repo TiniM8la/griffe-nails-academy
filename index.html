@@ -400,6 +400,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       quiz.innerHTML = `<div class="quiz-progress"><span style="width:100%"></span></div><div class="quiz-screen quiz-final"><span class="quiz-check" aria-hidden="true">✓</span><p class="eyebrow">TEST COMPLETATO</p><h2>Test completato!</h2><h3>Due cose da fare:</h3><div class="final-steps"><p><b>01</b><strong>Invia il messaggio su WhatsApp</strong><span>È già pronto con le tue risposte: invialo così com'è.</span></p><p><b>02</b><strong>Allega 5 foto dei tuoi lavori</strong><span>Mandamele nella stessa chat, subito dopo.</span></p></div><a class="btn" href="https://wa.me/393339306905?text=${encodeURIComponent(buildWhatsAppMessage())}" target="_blank" rel="noopener">Apri WhatsApp&nbsp; →</a><p class="quiz-note"><span>Analizzerò i tuoi risultati e i tuoi lavori per proporti il percorso formativo più adatto a te.</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20S3 15 3 8.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 1.5C21 15 12 20 12 20Z"/></svg></p></div>`;
     }
 
+    document.addEventListener("click", event => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('a[href^="https://wa.me/"]');
+      if (!link) return;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: link.closest(".quiz-final") ? "whatsapp_test" : "whatsapp_direct" });
+    });
+
     renderWelcome();
   })();
 </script>
