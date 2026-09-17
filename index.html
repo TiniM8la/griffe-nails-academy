@@ -272,6 +272,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const quiz = document.querySelector("#quiz");
     const answers = {};
     let currentStep = 0;
+    let testStarted = false;
 
     const questions = [
       { eyebrow:"PUNTO DI PARTENZA", question:"Da quanto tempo lavori nel mondo unghie?", type:"radio", key:"esperienza", options:["Non ho ancora iniziato","Meno di 1 anno","Da 1 a 3 anni","Da 3 a 5 anni","Oltre 5 anni"] },
@@ -296,7 +297,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="quiz-intro"><p class="eyebrow">TEST DI ORIENTAMENTO</p><h2>Troviamo il percorso più adatto a te.</h2>${renderPath()}</div>
         <button class="btn quiz-start" type="button">Inizia il test&nbsp; →</button>
       </div>`;
-      quiz.querySelector(".quiz-start").addEventListener("click", () => { currentStep = 0; renderQuestion(); });
+      quiz.querySelector(".quiz-start").addEventListener("click", () => {
+        if (!testStarted) {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: "test_start" });
+          testStarted = true;
+        }
+        currentStep = 0;
+        renderQuestion();
+      });
     }
 
     function selectedValues(question) {
